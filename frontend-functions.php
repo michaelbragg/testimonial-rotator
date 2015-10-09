@@ -38,7 +38,7 @@ function testimonial_rotator_excerpt_more( $more )
 	global $post;
 	if( $post->post_type == "testimonial" )
 	{
-		return ' <a href="' . get_permalink( $post->id ) . '" class="testimonial-rotator-view-more">' . apply_filters('testimonia_rotator_view_more', __('View Full', 'testimonial_rotator')) . ' &rarr;</a>';
+		return ' <a href="' . get_permalink( $post->id ) . '" class="testimonial-rotator-view-more">' . apply_filters('testimonia_rotator_view_more', __('View Full', 'testimonial-rotator')) . ' &rarr;</a>';
 	}
 }
 add_filter( 'excerpt_more', 'testimonial_rotator_excerpt_more' );
@@ -50,7 +50,7 @@ function testimonial_rotator_error( $msg )
 {
 	$error_handling = get_option( 'testimonial-rotator-error-handling' );
 	if(!$error_handling) $error_handling = "source";
-	if(!$msg) $msg = __('Something unknown went wrong', 'testimonial_rotator');
+	if(!$msg) $msg = __('Something unknown went wrong', 'testimonial-rotator');
 	
 	if( $error_handling == "display-admin")
 	{

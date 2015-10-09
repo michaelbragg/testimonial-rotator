@@ -57,7 +57,7 @@ function testimonial_rotator_column_sort($columns)
 	$columns = array(
 		'title'    => __('Title', 'testimonial_rotator'),
 		'ID'       => __('Rotator', 'testimonial_rotator'),
-		'date'     => __('Date', 'testimonial_rotator')
+		'order'    => 'menu_order'
 	);
 
 	return $columns;
@@ -86,6 +86,7 @@ function testimonial_rotator_rotator_columns( $columns )
 	$columns = array(
 		'cb'       		=> '<input type="checkbox" />',
 		'title'    		=> __('Title', 'testimonial_rotator'),
+		'count'    		=> __('Testimonial Count', 'testimonial_rotator'),
 		'shortcode'		=> __('Shortcodes', 'testimonial_rotator')
 	);
 
@@ -95,13 +96,62 @@ function testimonial_rotator_rotator_columns( $columns )
 function testimonial_rotator_rotator_add_columns( $column ) 
 {
 	global $post;
-	if ( $column == 'shortcode' )  	{ 	echo '
-												<b>' . __('Use Rotator Settings' , 'testimonial_rotator') . '</b><br />
-												[testimonial_rotator id=' . $post->ID . ']<br /><br />
-												
-												<b>' . __('Display as List' , 'testimonial_rotator') . '</b><br />
-												[testimonial_rotator id=' . $post->ID . ' format=list]
-											'; }
+	if ( $column == 'shortcode' )  	
+	{ 	echo '
+			<b>' . __('Use Rotator Settings' , 'testimonial_rotator') . '</b><br />
+			[testimonial_rotator id=' . $post->ID . ']<br /><br />
+			
+			<b>' . __('Display as List' , 'testimonial_rotator') . '</b><br />
+			[testimonial_rotator id=' . $post->ID . ' format=list]
+		'; 
+	}										
+	else if ( $column == 'count' )  	
+	{
+		$meta_query = array( 'relation' => 'OR',
+								array(
+									'key' 		=> '_rotator_id',
+									'value' 	=> $post->ID
+								),
+								array(
+									'key' 		=> '_rotator_id',
+									'value' 	=> '|' . $post->ID . '|',
+									'compare'	=> 'LIKE'
+								));
+		$args = array( 'posts_per_page' => -1, 'post_type' => 'testimonial', 'meta_query' => $meta_query );
+		$count_query = new WP_Query( $args );
+		
+		if( !$count_query->found_posts )
+		{
+			echo __("None assigned yet", "testimonial_rotator");
+		}
+		else
+		{
+			echo "<a href=\"edit.php?post_type=testimonial&rotator_id=" . $post->ID . "\">" .  number_format($count_query->found_posts) . "</a>";	
+		}
+	}							
+}
+
+
+/* PARSE TESTIMONIALS BY ROTATOR ID */
+function testimonial_rotator_parse_testimonials_by_rotator_id( $query )
+{
+	global $pagenow;
+	
+	if( $pagenow == "edit.php" AND isset($query->query['post_type']) AND $query->query['post_type'] == "testimonial" AND isset($_GET['rotator_id']) )
+	{
+		// GET TESTIMONIALS ONLY FOR THIS ROTATOR
+		$id = (int) $_GET['rotator_id'];
+		$query->query_vars['meta_query'] = array( 'relation' => 'OR',
+								array(
+									'key' 		=> '_rotator_id',
+									'value' 	=> $id
+								),
+								array(
+									'key' 		=> '_rotator_id',
+									'value' 	=> '|' . $id . '|',
+									'compare'	=> 'LIKE'
+								));					
+	}
 }
 
 

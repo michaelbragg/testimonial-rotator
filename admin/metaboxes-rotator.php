@@ -42,14 +42,16 @@ function testimonial_rotator_metabox_effects()
 	$itemreviewed			= get_post_meta( $post->ID, '_itemreviewed', true );
 	$template				= get_post_meta( $post->ID, '_template', true );
 	$img_size				= get_post_meta( $post->ID, '_img_size', true );
+	$title_heading			= get_post_meta( $post->ID, '_title_heading', true );
 	
-	$available_effects = array('fade', 'fadeout', 'scrollHorz', 'scrollVert', 'none');
-	$image_sizes = get_intermediate_image_sizes();
+	$available_effects 		= testimonial_rotator_base_transitions();
+	$image_sizes 			= get_intermediate_image_sizes();
 	
 	if(!$timeout) 	{ $timeout = 5; }
 	if(!$speed) 	{ $speed = 1; }
 	if(!$template) 	{ $template = 'default'; }
 	if(!$img_size) 	{ $template = 'thumbnail'; }
+	if(!$title_heading) 	{ $title_heading = apply_filters('testimonial_rotator_title_heading', 'h2'); }
 	?>
 	
 	<style>
@@ -96,6 +98,11 @@ function testimonial_rotator_metabox_effects()
 		<?php _e('Limit Number of Testimonials', 'testimonial_rotator'); ?>
 	</p>
 	
+	<p>
+		<input type="text" style="width: 45px; text-align: center;" name="title_heading" value="<?php echo esc_attr( $title_heading ); ?>" maxlength="12" />
+		<?php _e('Element for Title Field', 'testimonial_rotator'); ?>
+	</p>
+	
 	</div>
 	
 	<div class="hg_slider_column">
@@ -134,25 +141,42 @@ function testimonial_rotator_metabox_effects()
 	</p>
 
 	<div style="padding: 15px 0; margin: 15px 0; border-top: solid 1px #ccc; border-bottom: solid 1px #ccc;">
+		
+		<style> 
+			.tr_template_selected { border: solid 5px #bee483; } 
+			#testimonial-rotator-templates a:focus { box-shadow: none; } 
+		</style>
+		
+		<script>
+			jQuery(document).ready(function() 
+			{
+				jQuery('.testimonial-rotator-template-selector-wrap a').on('click', function() 
+				{
+					jQuery('.testimonial-rotator-template-selector-wrap').removeClass('tr_template_selected');
+					jQuery('#testimonial_rotator_template').val( jQuery(this).data('slug') );
+					jQuery(this).parent('.testimonial-rotator-template-selector-wrap').addClass('tr_template_selected');
+				});
+			});
+		</script>
 	
 		<?php if( defined('TESTIMONIAL_ROTATOR_THEME_PACK') ) { ?>
 		
 			<?php $available_themes = (array) apply_filters( 'testimonial_rotator_themes', array( 'default' => array('title' => 'Default', 'icon' => TESTIMONIAL_ROTATOR_URI . "/images/icon-default.png") ) ); ?>
 			<p>
-				<input type="text" name="template" id="testimonial_rotator_template" value="<?php echo $template; ?>" />
 				<strong><?php _e('Select a Template:', 'testimonial_rotator'); ?></strong><br>
 			</p>
 			
 			<div id="testimonial-rotator-templates">
 			
 				<?php foreach( $available_themes as $theme_slug => $available_theme ) { ?>
-					<div style="float: left; text-align: center; padding: 10px; margin: 10px; min-height: 100px;">
-						<a href="javascript:;" class="testimonial-rotator-template-selector" data-slug="<?php echo esc_attr($theme_slug); ?>"><img src="<?php echo $available_theme['icon']; ?>" style="width: 155px;<?php if($template == $theme_slug) echo " border: solid 2px #bee483;"; ?>"></a><br>
+					<div class="testimonial-rotator-template-selector-wrap <?php if($template == $theme_slug) echo "tr_template_selected"; ?>" style="float: left; text-align: center; padding: 10px; margin: 10px; min-height: 100px;">
+						<a href="javascript:;" class="testimonial-rotator-template-selector" data-slug="<?php echo esc_attr($theme_slug); ?>"><img src="<?php echo $available_theme['icon']; ?>" style="width: 155px;"></a><br>
 						<b><?php echo $available_theme['title']; ?></b> - <a href="javascript:;" class="testimonial-rotator-template-selector" data-slug="<?php echo esc_attr($theme_slug); ?>"><?php echo __('Use', 'testimonial_rotator'); ?></a>
 					</div>
 				<?php } ?>
 				
 				<div style="clear:both;"></div>
+				<input type="hidden" name="template" id="testimonial_rotator_template" value="<?php echo $template; ?>" />
 			</div>
 		
 		<?php } else { ?>
@@ -189,7 +213,8 @@ function testimonial_rotator_save_rotator_meta( $post_id, $post )
 		if ( isset( $_POST['itemreviewed'] ) ) 		{ update_post_meta( $post_id, '_itemreviewed', strip_tags( $_POST['itemreviewed'] ) ); }
 		if ( isset( $_POST['template'] ) ) 			{ update_post_meta( $post_id, '_template', strip_tags( $_POST['template'] ) ); }
 		if ( isset( $_POST['img_size'] ) ) 			{ update_post_meta( $post_id, '_img_size', strip_tags( $_POST['img_size'] ) ); }
-		
+		if ( isset( $_POST['title_heading'] ) ) 	{ update_post_meta( $post_id, '_title_heading', strip_tags( $_POST['title_heading'] ) ); }
+
 		update_post_meta( $post_id, '_shuffle', isset( $_POST['shuffle']) ? 1 : 0 );
 		update_post_meta( $post_id, '_verticalalign', isset( $_POST['verticalalign']) ? 1 : 0 );
 		update_post_meta( $post_id, '_prevnext', isset( $_POST['prevnext']) ? 1 : 0 );

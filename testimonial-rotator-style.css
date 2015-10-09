@@ -6,20 +6,7 @@
 
 /* STRUCTURE */
 .testimonial_rotator_wrap { margin: 20px 10px; padding: 10px; overflow: hidden; position: relative; }
-.testimonial_rotator .slide { width: 100%; height: auto; }
-
 .testimonial_rotator_wrap.with-prevnext { padding: 10px 40px; }
-
-
-/* TESTIMONIAL WITH IMAGE */
-.testimonial_rotator .has-image .img,
-.testimonial_rotator_single.has-image .img { width: 20%; margin-right: 5%; float: left; padding: 0; padding-top: .5em; }
-
-.testimonial_rotator .has-image .img img,
-.testimonial_rotator_single.has-image .img img { width: 100%; max-width: 150px; height: auto; }
-
-.testimonial_rotator .has-image .text,
-.testimonial_rotator_single.has-image .text { width: 75%; float: left; padding: 0; margin: 0;}
 
 
 /* SLIDE VERSION */
@@ -27,6 +14,7 @@
 .testimonial_rotator h1,
 .testimonial_rotator h2 { margin: 10px 0 0 0; padding: 0; }
 .testimonial_rotator .testimonial_rotator_slide_title { margin: 0 0 5px 0; }
+
 
 /* SINGLE VERSION */
 .testimonial_rotator_single {}
@@ -74,6 +62,32 @@
 
 /* WIDGET */
 .testimonial_rotator_widget_wrap { position: relative; }
+.testimonial_rotator_widget_wrap.with-prevnext { padding: 0 25px; }
+.testimonial_rotator_widget_wrap .testimonial_rotator_prev { left: 0; }
+.testimonial_rotator_widget_wrap .testimonial_rotator_next { right: 0; }
 
 /* ERROR */
 div.testimonial-rotator-error { color: #aa3429; font-weight: bold; display: block; padding: 10px; font-size: 11px; border-radius: 3px; text-align: center; border: solid 1px #aa3429; text-transform: uppercase; }
+
+
+
+/* THEME: DEFAULTS */
+.testimonial_rotator.template-default .slide { width: 100%; height: auto; }
+
+.testimonial_rotator.template-default .has-image .img,
+.testimonial_rotator_single.has-image.template-default .img { width: 20%; margin-right: 5%; float: left; padding: 0; padding-top: .5em; }
+
+.testimonial_rotator.template-default .has-image .img img,
+.testimonial_rotator_single.has-image.template-default .img img { width: 100%; max-width: 150px; height: auto; }
+
+.testimonial_rotator.template-default .has-image .text,
+.testimonial_rotator_single.has-image.template-default .text { width: 75%; float: left; padding: 0; margin: 0; }
+
+
+/* HELPS FOR SMOOTH FLIP TRANSITION */
+
+
+
+
+
+

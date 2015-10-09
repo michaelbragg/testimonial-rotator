@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: halgatewood
-Donate link: http://halgatewood.com/donate/
+Donate link: https://halgatewood.com/donate/
 Tags: testimonials, sidebar, shortcode, testimonial, praise, homage, testimony, witness, appreciation, green light, rotator, rotators, for developers
 Requires at least: 3.5
-Tested up to: 4.3
+Tested up to: 4.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -26,7 +26,7 @@ Version 2 includes a big release full of awesome features like:
 * Star Ratings
 * Author information field
 * Testimonial single template
-* Ability to make custom templates (PRO Theme Pack coming soon)
+* Ability to make custom templates (custom themes in the works)
 * hReview Support
 * Pagination in List Format
 * Ability to show the Add Rotator section based on User Role
@@ -65,6 +65,17 @@ When you are adding or editing the rotator, you have the ability to specify how 
 
 
 == Changelog ==
+
+= 2.1 - Updated Oct 9, 2015 =
+* Added Shortcode for Single Testimonial
+* Added Testimonial Count to Rotator List View
+* Change the Element for the Title in Settings (default H2)
+* Code added for upcoming custom templates
+* Flip transitions added
+* Fix hreview itemreviewed name
+* Code cleanup and better sanitation of variables
+* Updated text domain from testimonial_rotator to testimonial-rotator
+
 
 = 2.0.6 - Updated July 13, 2015 =
 * Changed WP_Widget() to __construct, for maximum PHP5 support
